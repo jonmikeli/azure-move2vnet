@@ -9,6 +9,7 @@ get_parameter_values ()
 		case $option in
 			s) subscriptionId=$OPTARG;;
 			g) resourceGroupName=$OPTARG;;
+			v) vnet=$OPTARG;;
 			t) tags=$OPTARG;;
             q) query=$OPTARG;;
             v) verbose=$OPTARG;;
@@ -18,6 +19,7 @@ get_parameter_values ()
 
 	echo "Subscription id: $subscriptionId"
 	echo "Resource group name: $resourceGroupName"
+	echo "VNet: $vnet"
 	echo "Tag: $tag"
     echo "Query: $query"
     echo "Verbose: $verbose"
@@ -29,11 +31,13 @@ get_parameter_values "$@"
 #set the default subscription id
 az account set --subscription $subscriptionId
 
-#Check for existing RG
+#check for existing RG
 az group show --name $resourceGroupName 1> /dev/null
 
 if [ $? != 0 ]; then
 	echo "Resource group with name" $resourceGroupName "could not be found."
+	exit 1
+
 	set -e
 	(
 		set -x
