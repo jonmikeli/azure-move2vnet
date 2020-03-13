@@ -8,9 +8,10 @@ get_parameter_values ()
 	do	
 		case $option in
 			s) subscriptionId=$OPTARG;;
-			r) resourceGroupName=$OPTARG;;
-			f) tags=$OPTARG;;
+			g) resourceGroupName=$OPTARG;;
+			t) tags=$OPTARG;;
             q) query=$OPTARG;;
+            v) verbose=$OPTARG;;
 		esac
 	done
 	shift $((OPTIND -1))	
@@ -19,6 +20,7 @@ get_parameter_values ()
 	echo "Resource group name: $resourceGroupName"
 	echo "Tag: $tag"
     echo "Query: $query"
+    echo "Verbose: $verbose"
 }
 
 #get script parameter values
