@@ -44,15 +44,9 @@ if [ $? != 0 ]; then
 fi
 
 #Check for existing azure resources in the RG
-az resources list --gresource-group $resourceGroupName --tag $tag --query $query 1> /dev/null
+resources = az resources list --gresource-group $resourceGroupName --tag $tag --query $query
 
-if [ $? != 0 ]; then
-	echo "Resource group with name" $resourceGroupName "could not be found."
-	set -e
-	(
-		set -x
-		az group create --name $resourceGroupName --location $resourceGroupLocation --subscription $subscriptionId --tags ${tags[@]} environment=$environment 1> /dev/null
-	)
-	else
-	echo "Using existing resource group..."
-fi
+for r in $resources
+do
+    echo "Processing resource $r ..."
+done
