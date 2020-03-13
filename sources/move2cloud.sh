@@ -44,6 +44,22 @@ get_parameter_values ()
 #get script parameter values
 get_parameter_values "$@"
 
+#check inputs
+if [-z "${subscriptionId}" ]; then
+	echo "No subscriptionId has been provided."
+	exit 1
+fi
+
+if [-z "${resourceGroupName}" ]; then
+	echo "No resource group name has been provided."
+	exit 1
+fi
+
+if [-z "${vnet}" ]; then
+	echo "No vnet name has been provided."
+	exit 1
+fi
+
 #set the default subscription id
 az account set --subscription $subscriptionId
 
