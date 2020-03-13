@@ -69,14 +69,6 @@ az group show --name $resourceGroupName 1> /dev/null
 if [ $? != 0 ]; then
 	echo "Resource group with name" $resourceGroupName "could not be found."
 	exit 1
-
-	set -e
-	(
-		set -x
-		az group create --name $resourceGroupName --location $resourceGroupLocation --subscription $subscriptionId --tags ${tags[@]} environment=$environment 1> /dev/null
-	)
-	else
-	echo "Using existing resource group..."
 fi
 
 #check if the target vnet exists
