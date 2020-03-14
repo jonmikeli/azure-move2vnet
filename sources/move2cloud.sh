@@ -168,36 +168,45 @@ do
 
 	if [ ${#tmpArray[@]} -gt 0 ];
 	then
+		
+		echo "   >>> MOVING RESOURCES OF TYPE $type TO VNET..."
+
 		for tr in $tmpArray
 		do
-			echo "Item..."
-			echo $tr
+			echo "   >>> Item..."
+			echo "   >>> $tr"
 
 			rName=$(jq -r '.Name' <<< $tr)
-			echo "Name: $rName"
+			echo "   >>> Name: $rName"
 
 			rKind=$(jq -r '.Kind' <<< $tr)
-			echo "Kind: $rKind"
+			echo "   >>> Kind: $rKind"
 
-			echo "==========> Processing resource $rName of kind $rKind and type $type."
+			echo "   >>> ==> Processing resource '$rName' of kind '$rKind' and type '$type'."
 
 			case $type in
 				${resourceTypes[0]})
 				#Microsoft.Web/sites
-					echo "==========>    ${resourceTypes[0]}"
-					az webapp vnet-integration add -g gresourceGroupName -n $rName --vnet $vnet --subnet ${vnet}subnet
+					set -e
+					( 	
+						set -x
+						az webapp vnet-integration add -g gresourceGroupName -n $rName --vnet $vnet --subnet ${vnet}subnet
+					)
 					;;
 				${resourceTypes[1]})
 				#Microsoft.Web/serverFarms
-					echo "==========>    ${resourceTypes[1}"
+					echo "   >>> ==> TO BE DONE: $type"
 					;;
 				${resourceTypes[2]})
 				#Microsoft.Storage/storageAccounts
-					echo "==========>    ${resourceTypes[2]}"
-					az storage account network-rule add -g $resourceGroupName --account-name $rName --vnet $vnet --subnet ${vnet}subnet
+					set -e
+					( 	
+						set -x
+						az storage account network-rule add -g $resourceGroupName --account-name $rName --vnet $vnet --subnet ${vnet}subnet
+					)
 					;;
 				*)
-					echo "==========>    TYPE NOT FOUND: $type"
+					echo "   >>> ==> TYPE NOT FOUND: $type"
 					;;
 			esac
 		done
