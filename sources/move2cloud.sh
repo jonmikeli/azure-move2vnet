@@ -155,8 +155,8 @@ do
 	tmpArray=$(echo $rArray | jq -c --arg type "$type" '.[] | select( .Type == $type )')
 	echo
 	echo
-	echo "====================================== $type =========================================="
-	echo "Number of resources of type $type: ${#tmpArray[@]}"
+	echo "====================================== $type (${#tmpArray[@]}) =========================================="
+	echo "Count: ${#tmpArray[@]}"
 	echo "Resources:"
 	echo ${tmpArray[@]} | jq '.'
 	echo
