@@ -136,7 +136,6 @@ echo "Formated raw data:"
 echo $rArray | jq '.'
 echo "Formated raw data(items):"
 echo $rArray | jq '.[]'
-echo $rArray | jq '.[]' | echo "Item to be processed"
 echo
 
 #List of resource types to move to vnet
@@ -157,7 +156,7 @@ do
 	echo
 	echo "Number of resources of type $type: ${#tmpArray[@]}"
 	echo "Resources:"
-	echo ${tmpArray[@]}
+	echo ${tmpArray[@]} | jq '.'
 	echo
 
 	if [ ${#tmpArray[@]} -gt 0 ];
@@ -167,7 +166,7 @@ do
 
 		for tr in $tmpArray
 		do
-			echo "   >>> Item..."
+			echo "   >>> Item:"
 			echo "   >>> $tr"
 
 			rName=$(jq -r '.Name' <<< $tr)
