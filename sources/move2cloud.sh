@@ -144,14 +144,14 @@ resourceTypes=(Microsoft.Web/sites Microsoft.Web/serverFarms Microsoft.Storage/s
 
 echo
 echo "Resource types (${#resourceTypes[@]}):"
-for t in $resourceTypes
+for t in ${resourceTypes[@]}
 do
 	echo "  - $t"
 done
 echo
 
 #PROCESSING
-for type in $resourceTypes;
+for type in ${resourceTypes[@]}
 do
 	tmpArray=$(echo $rArray | jq -c --arg type "$type" '.[] | select( .Type == $type )')
 	echo
