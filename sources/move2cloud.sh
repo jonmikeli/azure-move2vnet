@@ -150,7 +150,7 @@ echo $rArray | jq '.[]'
 echo
 
 #List of resource types to move to vnet
-resourceTypes=(Microsoft.Web/sites Microsoft.Web/serverFarms Microsoft.Storage/storageAccounts)
+resourceTypes=(Microsoft.Web/sites Microsoft.Web/serverFarms Microsoft.Storage/storageAccounts Microsoft.KeyVault/vaults)
 
 echo
 echo "Resource types (${#resourceTypes[@]}):"
@@ -207,6 +207,14 @@ do
 					( 	
 						set -x
 						az storage account network-rule add -g $resourceGroupName --account-name $rName --vnet $vnet --subnet ${vnet}subnet
+					)
+					;;
+				${resourceTypes[3]})
+				#Microsoft.KeyVault/vaults
+					set -e
+					( 	
+						set -x
+						az keyvault network-rule add -g $resourceGroupName --name $rName --vnet-name $vnet --subnet ${vnet}subnet
 					)
 					;;
 				*)
