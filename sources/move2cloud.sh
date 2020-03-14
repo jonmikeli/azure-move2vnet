@@ -154,6 +154,8 @@ for type in ${resourceTypes[@]}
 do
 	tmpArray=$(echo $rArray | jq -c --arg type "$type" '.[] | select( .Type == $type )')
 	echo
+	echo
+	echo "====================================== $type =========================================="
 	echo "Number of resources of type $type: ${#tmpArray[@]}"
 	echo "Resources:"
 	echo ${tmpArray[@]} | jq '.'
@@ -174,8 +176,6 @@ do
 
 			rKind=$(jq -r '.Kind' <<< $tr)
 			echo "   >>> Kind: $rKind"			
-
-			echo "   >>> ==> Processing resource '$rName' of kind '$rKind' and type '$type'."
 
 			case $type in
 				${resourceTypes[0]})
@@ -206,6 +206,8 @@ do
 	else
 		echo "No resources for the type $type."
 	fi
+
+	echo "====================================== -- $type -- =========================================="
 done
 
 
