@@ -138,12 +138,16 @@ do
 	echo "Item..."
 	echo $r
 
-	kind=$(jq -r '.Kind' <<< $r)
-	echo "Kind: $kind"
+	rName=$(jq -r '.Name' <<< $r)
+	echo "Name: $rName"
 
-	if [ $kind == "StorageV2" ]
+	rKind=$(jq -r '.Kind' <<< $r)
+	echo "Kind: $rKind"
+
+	if [ $rKind == "StorageV2" ]
 	then
 		echo "Storage found"
+		az storage account network-rule add -g $resourceGroupName --account-name $rName --vnet $vnet --subnet ${vnet}subnet
 	else
 		echo "Unnown type"
 	fi
