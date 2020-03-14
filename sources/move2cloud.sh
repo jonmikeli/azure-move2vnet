@@ -140,23 +140,19 @@ echo $rArray | jq -c '.[] | select( .Kind == "StorageV2" )'
 echo "FIN SELECT"
 echo
 
-resourceTypes = ( \
-"Microsoft.Web\sites" \
-"Microsoft.Web\serverFarms" \
-"Microsoft.Storage\storageAccounts" \
-)
+resourceTypes=(Microsoft.Web\\sites Microsoft.Web\\serverFarms Microsoft.Storage\\storageAccounts)
 
 echo
 echo "Resource types:"
-echo $resourceTypes
+echo ${resourceTypes[@]}
 echo
 
 for type in $resourceTypes;
 do
-	echo " -> Type $type"
-	tmpArray = $($rArray | jq -c '.[] | select( .Type == $type )')
+	tmpArray=$(echo $rArray | jq -c --arg type "$type" '.[] | select( .Type == $type )')
+	echo "Number of resources of type $type: ${#tmpArray[@]}"
 
-	if [ ${#tmpArray[@]} > 0 ]
+	if [ ${#tmpArray[@]} -gt 0 ];
 	then
 		for tr in $tmpArray
 		do
@@ -186,6 +182,8 @@ do
 					;;			
 			esac
 		done
+	else
+		echo "No resources for the type $type."
 	fi
 done
 
