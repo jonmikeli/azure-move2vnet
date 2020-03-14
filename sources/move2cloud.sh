@@ -106,13 +106,13 @@ set -e
 
 		if [ -z "${tag}" ] && [ -z "${query}" ]
 		then
-		resources = az resources list --resource-group $resourceGroupName --tag $tag --query "[?name != '$vnet']" --query $query
+		resources = az resource list --resource-group $resourceGroupName --tag $tag --query "[?name != '$vnet']" --query $query
 		elif [ -z "${tag}" ]
 		then
-		resources = az resources list --resource-group $resourceGroupName --tag $tag --query "[?name != '$vnet']"
+		resources = az resource list --resource-group $resourceGroupName --tag $tag --query "[?name != '$vnet']"
 		elif [ -z "${query}" ]
 		then
-		resources = az resources list --resource-group $resourceGroupName --query "[?name != '$vnet']" --query $query
+		resources = az resource list --resource-group $resourceGroupName --query "[?name != '$vnet']" --query $query
 		fi		
 	)
 
