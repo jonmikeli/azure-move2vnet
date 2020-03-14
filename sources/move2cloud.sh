@@ -160,8 +160,10 @@ echo
 for type in $resourceTypes;
 do
 	tmpArray=$(echo $rArray | jq -c --arg type "$type" '.[] | select( .Type == $type )')
+	echo
 	echo "Number of resources of type $type: ${#tmpArray[@]}"
-	echo "$type -> ${tmpArray[@]}"
+	echo "Resources:"
+	echo ${tmpArray[@]}
 	echo
 
 	if [ ${#tmpArray[@]} -gt 0 ];
