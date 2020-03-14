@@ -188,6 +188,7 @@ do
 				${resourceTypes[2]})
 				#Microsoft.Storage/storageAccounts
 					echo "==========>    ${resourceTypes[2]}"
+					az storage account network-rule add -g $resourceGroupName --account-name $rName --vnet $vnet --subnet ${vnet}subnet
 					;;
 				*)
 					echo "==========>    TYPE NOT FOUND: $type"
