@@ -138,7 +138,10 @@ do
 	echo "Item..."
 	echo $r
 
-	if [ $(jq '.Kind' <<< $r)=='StorageV2' ]
+	kind=$(jq -r '.Kind' <<< $r)
+	echo "Kind: $kind"
+
+	if [ $kind == "StorageV2" ]
 	then
 		echo "Storage found"
 	else
