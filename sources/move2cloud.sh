@@ -84,30 +84,33 @@ az network vnet show --name $vnet -g $resourceGroupName 1> /dev/null
 if [ $? != 0 ];
 then
 	echo "VNET with name" $vnet "could not be found in the resource group $resourceGroupName."
-	exit 1
-else
+
+	echo "Creating a vnet named $vnet."
+
 	set -e
 	(
 		set -x
 
 		az network vnet create --name $vnet --resource-group $resourceGroupName 
 	)
+else
+	echo "Vnet $vnet found in the $resourceGroupName."
 fi
 
 
 #Check for existing azure resources in the RG (different from the VNET)
-#
+echo "Listing Azure resources to move to the vnet."
 set -e
 	(
 		set -x
 
-		if [-z "${tag}" ] && [-z "${query}"]
+		if [ -z "${tag}" ] && [ -z "${query}" ]
 		then
 		resources = az resources list --resource-group $resourceGroupName --tag $tag --query "[?name != '$vnet']" --query $query
-		elif [-z "${tag}" ]
+		elif [ -z "${tag}" ]
 		then
 		resources = az resources list --resource-group $resourceGroupName --tag $tag --query "[?name != '$vnet']"
-		elif [-z "${query}" ]
+		elif [ -z "${query}" ]
 		then
 		resources = az resources list --resource-group $resourceGroupName --query "[?name != '$vnet']" --query $query
 		fi		
@@ -115,7 +118,7 @@ set -e
 
 for r in $resources
 do
-	if [-z "${tag}" ]
+	if [ -z "${tag}" ]
 	then
     	echo "Processing resource $r ..."
 	else
