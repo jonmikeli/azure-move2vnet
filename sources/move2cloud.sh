@@ -35,36 +35,43 @@ get_parameter_values ()
 	done
 	shift $((OPTIND -1))	
 
-	echo "Subscription id: $subscriptionId"
-	echo "Resource group name: $resourceGroupName"
-	echo "VNet: $vnet"
-	echo "Tag: $tag"
-    echo "Query: $query"
-    echo "Verbose: $verbose"
+#Settings reminder
+	echo
+	echo "Settings:"
+	echo "  - Subscription id: $subscriptionId"
+	echo "  - Resource group name: $resourceGroupName"
+	echo "  - VNet: $vnet"
+	echo "  - Tag: $tag"
+    echo "  - Query: $query"
+    echo "  - Verbose: $verbose"
+	echo
 }
 
 #get script parameter values
 get_parameter_values "$@"
 
 #check inputs
-if [ -z "${subscriptionId}" ]; then
+if [ -z "${subscriptionId}" ];
+then
 	echo "No subscriptionId has been provided."
 	exit 1
-	else
+else
 	echo "SubscriptionId PROVIDED."
 fi
 
-if [ -z "${resourceGroupName}" ]; then
+if [ -z "${resourceGroupName}" ];
+then
 	echo "No resource group name has been provided."
 	exit 1
-	else
+else
 	echo "resourceGroupName PROVIDED."
 fi
 
-if [ -z "${vnet}" ]; then
+if [ -z "${vnet}" ];
+then
 	echo "No vnet name has been provided."
 	exit 1
-	else
+else
 	echo "vnet PROVIDED."
 fi
 
@@ -104,6 +111,7 @@ fi
 
 
 #Check for existing azure resources in the RG (different from the VNET)
+echo
 echo "Listing Azure resources to move to the vnet."
 echo "  - Resource group: $resourceGroupName."
 echo "  - VNet: $vnet"
