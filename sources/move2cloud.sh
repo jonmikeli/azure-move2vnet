@@ -140,6 +140,56 @@ echo $rArray | jq -c '.[] | select( .Kind == "StorageV2" )'
 echo "FIN SELECT"
 echo
 
+resourceTypes = ( \
+"Microsoft.Web\sites" \
+"Microsoft.Web\serverFarms" \
+"Microsoft.Storage\storageAccounts" \
+)
+
+echo
+echo "Resource types:"
+echo $resourceTypes
+echo
+
+for type in $resourceTypes;
+do
+	echo " -> Type $type"
+	tmpArray = $($rArray | jq -c '.[] | select( .Type == $type )')
+
+	if [ ${#tmpArray[@]} > 0 ]
+	then
+		for tr in $tmpArray
+		do
+			echo "Item..."
+			echo $tr
+
+			rName=$(jq -r '.Name' <<< $tr)
+			echo "Name: $rName"
+
+			rKind=$(jq -r '.Kind' <<< $tr)
+			echo "Kind: $rKind"
+
+			echo "==========> Processing resource $rName of kind $rKind and type $type."
+
+			case $type in
+				$resourceTypes[0])
+				#Microsoft.Web\sites
+					echo "==========>    $resourceTypes[0]"
+					;;
+				$resourceTypes[1])
+				#Microsoft.Web\serverFarms
+					echo "==========>    $resourceTypes[1]"
+					;;
+				$resourceTypes[2])
+				#Microsoft.Storage\storageAccounts
+					echo "==========>    $resourceTypes[2]"
+					;;			
+			esac
+		done
+	fi
+done
+
+: << 'END'
 for r in $(echo $rArray | jq -c '.[]')
 do
 	echo "Item..."
@@ -167,5 +217,6 @@ do
 	fi
 	
 done
+END
 
 
