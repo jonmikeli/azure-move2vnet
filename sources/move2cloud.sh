@@ -108,17 +108,18 @@ echo "  - Tag: $tag"
 echo "  - Query: $query"
 
 set -e
-az resource list --resource-group $resourceGroupName --query "[?name!='$vnet'].{Id:id,Name:name,Kind:kind}" --output table
+#az resource list --resource-group $resourceGroupName --query "[?name!='$vnet'].{Id:id,Name:name,Kind:kind}" --output table
+az resource list --resource-group $resourceGroupName --query "[?name!='$vnet']"
 	
 if [ ! -z "${tag}" ] && [ ! -z "${query}" ]
 then		
-	rArray=$(az resource list --resource-group $resourceGroupName --query "[?name!='$vnet'].{Id:id,Name:name,Kind:kind}" --out json)
+	rArray=$(az resource list --resource-group $resourceGroupName --query "[?name!='$vnet'].{Id:id,Name:name,Kind:kind,Type:type}" --out json)
 elif [ ! -z "${tag}" ];
 then
-	rArray=$(az resource list --resource-group $resourceGroupName --query "[?name!='$vnet'].{Id:id,Name:name,Kind:kind}" --out json)
+	rArray=$(az resource list --resource-group $resourceGroupName --query "[?name!='$vnet'].{Id:id,Name:name,Kind:kind,Type:type}" --out json)
 elif [ ! -z "${query}" ];
 then
-	rArray=$(az resource list --resource-group $resourceGroupName --query "[?name!='$vnet'].{Id:id,Name:name,Kind:kind}" --out json)
+	rArray=$(az resource list --resource-group $resourceGroupName --query "[?name!='$vnet'].{Id:id,Name:name,Kind:kind,Type:type}" --out json)
 fi		
 
 #https://azurecitadel.com/prereqs/cli/cli-4-bash/
@@ -144,10 +145,17 @@ do
 	rKind=$(jq -r '.Kind' <<< $r)
 	echo "Kind: $rKind"
 
+	echo
+
+	echo "Processing resource $rName of kind $rKind."
 	if [ $rKind == "StorageV2" ]
 	then
-		echo "Storage found"
+		echo "Processing storage $rName"
 		az storage account network-rule add -g $resourceGroupName --account-name $rName --vnet $vnet --subnet ${vnet}subnet
+	elif [ $rKind == "webapp" ]
+	then
+		echo "Processing webapp "
+		az webapp vnet-integration add -g gresourceGroupName -n $rName --vnet $vnet --subnet ${vnet}subnet
 	else
 		echo "Unnown type"
 	fi
