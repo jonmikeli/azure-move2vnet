@@ -194,6 +194,7 @@ do
 					set -e
 					( 	
 						set -x
+
 						az webapp vnet-integration add -g $resourceGroupName -n $rName --vnet $vnet --subnet ${vnet}subnet
 					)
 					;;
