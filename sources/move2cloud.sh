@@ -111,7 +111,9 @@ echo "  - Tag: $tag"
 echo "  - Query: $query"
 
 set -e
-#az resource list --resource-group $resourceGroupName --query "[?name!='$vnet'].{Id:id,Name:name,Kind:kind}" --output table
+
+echo
+echo "Listing resources to move (raw data):"
 az resource list --resource-group $resourceGroupName --query "[?name!='$vnet']"
 	
 if [ ! -z "${tag}" ] && [ ! -z "${query}" ]
@@ -126,14 +128,15 @@ then
 fi		
 
 #https://azurecitadel.com/prereqs/cli/cli-4-bash/
+echo
 echo "Resources to move: ${#rArray[@]}"
-echo "Raw data:"
-echo ${rArray[@]}
 
 #http://www.compciv.org/recipes/cli/jq-for-parsing-json/
 echo
 echo "Formated raw data:"
 echo $rArray | jq '.'
+echo
+echo
 echo "Formated raw data(items):"
 echo $rArray | jq '.[]'
 echo
