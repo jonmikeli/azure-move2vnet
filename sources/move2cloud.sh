@@ -131,6 +131,20 @@ echo "Formated raw data:"
 echo $rArray | jq '.'
 echo "Formated raw data(items):"
 echo $rArray | jq '.[]'
-#$rArray | jq '.[]' | touch
+echo $rArray | jq '.[]' | echo "Item to be processed"
+
+for r in $(echo $rArray | jq -c '.[]')
+do
+	echo "Item..."
+	echo $r
+
+	if [ $(jq '.Kind' <<< $r)=='StorageV2' ]
+	then
+		echo "Storage found"
+	else
+		echo "Unnown type"
+	fi
+	
+done
 
 
