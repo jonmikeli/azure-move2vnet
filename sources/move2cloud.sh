@@ -140,17 +140,26 @@ echo $rArray | jq -c '.[] | select( .Kind == "StorageV2" )'
 echo "FIN SELECT"
 echo
 
-resourceTypes=(Microsoft.Web\\sites Microsoft.Web\\serverFarms Microsoft.Storage\\storageAccounts)
+resourceTypes=(Microsoft.Web/sites Microsoft.Web/serverFarms Microsoft.Storage/storageAccounts)
 
 echo
 echo "Resource types:"
 echo ${resourceTypes[@]}
 echo
 
+
+echo
+echo "SELECT2"
+echo $rArray | jq -c '.[] | select( .Type == "Microsoft.Web/sites" )' 
+echo "FIN SELECT2"
+echo
+
 for type in $resourceTypes;
 do
 	tmpArray=$(echo $rArray | jq -c --arg type "$type" '.[] | select( .Type == $type )')
 	echo "Number of resources of type $type: ${#tmpArray[@]}"
+	echo "$type -> ${tmpArray[@]}"
+	echo
 
 	if [ ${#tmpArray[@]} -gt 0 ];
 	then
@@ -168,18 +177,21 @@ do
 			echo "==========> Processing resource $rName of kind $rKind and type $type."
 
 			case $type in
-				$resourceTypes[0])
-				#Microsoft.Web\sites
-					echo "==========>    $resourceTypes[0]"
+				${resourceTypes[0]})
+				#Microsoft.Web/sites
+					echo "==========>    ${resourceTypes[0]}"
 					;;
-				$resourceTypes[1])
-				#Microsoft.Web\serverFarms
-					echo "==========>    $resourceTypes[1]"
+				${resourceTypes[1]})
+				#Microsoft.Web/serverFarms
+					echo "==========>    ${resourceTypes[1}"
 					;;
-				$resourceTypes[2])
-				#Microsoft.Storage\storageAccounts
-					echo "==========>    $resourceTypes[2]"
-					;;			
+				${resourceTypes[2]})
+				#Microsoft.Storage/storageAccounts
+					echo "==========>    ${resourceTypes[2]}"
+					;;
+				*)
+					echo "==========>    TYPE NOT FOUND: $type"
+					;;
 			esac
 		done
 	else
@@ -187,7 +199,8 @@ do
 	fi
 done
 
-: << 'END'
+
+: << 'SIMPLE_VERSION'
 for r in $(echo $rArray | jq -c '.[]')
 do
 	echo "Item..."
@@ -202,19 +215,35 @@ do
 	echo
 
 	echo "Processing resource $rName of kind $rKind."
+	case $type in
+		$resourceTypes[0])
+			#Microsoft.Web\sites
+			echo "==========>    $resourceTypes[0]"
+		;;
+		$resourceTypes[1])
+			#Microsoft.Web\serverFarms
+			echo "==========>    $resourceTypes[1]"
+		;;
+		$resourceTypes[2])
+			#Microsoft.Storage\storageAccounts
+			echo "==========>    $resourceTypes[2]"
+		;;			
+	esac
+	
 	if [ $rKind == "StorageV2" ]
 	then
 		echo "Processing storage $rName"
-		az storage account network-rule add -g $resourceGroupName --account-name $rName --vnet $vnet --subnet ${vnet}subnet
+		#az storage account network-rule add -g $resourceGroupName --account-name $rName --vnet $vnet --subnet ${vnet}subnet
 	elif [ $rKind == "webapp" ]
 	then
 		echo "Processing webapp "
-		az webapp vnet-integration add -g gresourceGroupName -n $rName --vnet $vnet --subnet ${vnet}subnet
+		#az webapp vnet-integration add -g gresourceGroupName -n $rName --vnet $vnet --subnet ${vnet}subnet
 	else
 		echo "Unnown type"
 	fi
 	
 done
-END
+SIMPLE_VERSION
+
 
 
