@@ -139,12 +139,6 @@ echo $rArray | jq '.[]'
 echo $rArray | jq '.[]' | echo "Item to be processed"
 echo
 
-echo
-echo "SELECT"
-echo $rArray | jq -c '.[] | select( .Kind == "StorageV2" )' 
-echo "FIN SELECT"
-echo
-
 #List of resource types to move to vnet
 resourceTypes=(Microsoft.Web/sites Microsoft.Web/serverFarms Microsoft.Storage/storageAccounts)
 
