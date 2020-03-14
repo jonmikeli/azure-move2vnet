@@ -100,28 +100,28 @@ fi
 
 #Check for existing azure resources in the RG (different from the VNET)
 echo "Listing Azure resources to move to the vnet."
+echo "  - Tag: $tag"
+echo "  - Query: $query"
 set -e
 	(
-		set -x
-
 		if [ -z "${tag}" ] && [ -z "${query}" ]
+		then		
+		resources=$(az resource list --resource-group $resourceGroupName --tag $tag --query "[?name!='$vnet']")
+		elif [ -z "${tag}" ];
 		then
-		resources = az resource list --resource-group $resourceGroupName --tag $tag --query "[?name != '$vnet']" --query $query
-		elif [ -z "${tag}" ]
+		resources=$(az resource list --resource-group $resourceGroupName --tag $tag --query "[?name!='$vnet']")
+		elif [ -z "${query}" ];
 		then
-		resources = az resource list --resource-group $resourceGroupName --tag $tag --query "[?name != '$vnet']"
-		elif [ -z "${query}" ]
-		then
-		resources = az resource list --resource-group $resourceGroupName --query "[?name != '$vnet']" --query $query
+		resources=$(az resource list --resource-group $resourceGroupName --query "[?name!='$vnet']")
 		fi		
 	)
 
+#https://azurecitadel.com/prereqs/cli/cli-4-bash/
+echo "Resources to move..."
+echo ${#resources[*]}
+echo ${resources[*]}
+
 for r in $resources
 do
-	if [ -z "${tag}" ]
-	then
-    	echo "Processing resource $r ..."
-	else
-		echo "Processing resource $r ..."
-	fi
+    echo "Processing resource $r ..."
 done
