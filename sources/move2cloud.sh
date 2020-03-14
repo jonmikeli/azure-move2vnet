@@ -143,17 +143,14 @@ echo
 resourceTypes=(Microsoft.Web/sites Microsoft.Web/serverFarms Microsoft.Storage/storageAccounts)
 
 echo
-echo "Resource types:"
-echo ${resourceTypes[@]}
+echo "Resource types (${#resourceTypes[@]}):"
+for t in $resourceTypes
+do
+	echo "  - $t"
+done
 echo
 
-
-echo
-echo "SELECT2"
-echo $rArray | jq -c '.[] | select( .Type == "Microsoft.Web/sites" )' 
-echo "FIN SELECT2"
-echo
-
+#PROCESSING
 for type in $resourceTypes;
 do
 	tmpArray=$(echo $rArray | jq -c --arg type "$type" '.[] | select( .Type == $type )')
