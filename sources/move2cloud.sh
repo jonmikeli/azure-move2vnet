@@ -92,36 +92,42 @@ then
 		set -x
 
 		az network vnet create --name $vnet --resource-group $resourceGroupName 
+		az network vnet subnet create --name ${vnet}subnet --vnet-name $vnet --resource-group $resourceGroupName --address-prefixes 10.0.0.0/24
 	)
 else
 	echo "Vnet $vnet found in the $resourceGroupName."
+	echo "TODO: Add tests for subnets."
 fi
 
 
 #Check for existing azure resources in the RG (different from the VNET)
 echo "Listing Azure resources to move to the vnet."
+echo "  - Resource group: $resourceGroupName."
+echo "  - VNet: $vnet"
 echo "  - Tag: $tag"
 echo "  - Query: $query"
+
 set -e
-	(
-		if [ -z "${tag}" ] && [ -z "${query}" ]
-		then		
-		resources=$(az resource list --resource-group $resourceGroupName --tag $tag --query "[?name!='$vnet']")
-		elif [ -z "${tag}" ];
-		then
-		resources=$(az resource list --resource-group $resourceGroupName --tag $tag --query "[?name!='$vnet']")
-		elif [ -z "${query}" ];
-		then
-		resources=$(az resource list --resource-group $resourceGroupName --query "[?name!='$vnet']")
-		fi		
-	)
+az resource list --resource-group $resourceGroupName --query "[?name!='$vnet'].{Id:id,Name:name,Kind:kind}" --output table
+	
+if [ ! -z "${tag}" ] && [ ! -z "${query}" ]
+then		
+	rArray=$(az resource list --resource-group $resourceGroupName --query "[?name!='$vnet'].id" --out tsv)
+elif [ ! -z "${tag}" ];
+then
+	rArray=$(az resource list --resource-group $resourceGroupName --query "[?name!='$vnet'].{Id:id,Name:name,Kind:kind}" --out json)
+elif [ ! -z "${query}" ];
+then
+	rArray=$(az resource list --resource-group $resourceGroupName --query "[?name!='$vnet'].id" --out tsv)
+fi		
 
 #https://azurecitadel.com/prereqs/cli/cli-4-bash/
 echo "Resources to move..."
-echo ${#resources[*]}
-echo ${resources[*]}
+echo ${#rArray[@]}
+echo ${rArray[@]}
 
-for r in $resources
+for r in ${rArray[@]}
 do
-    echo "Processing resource $r ..."
+	echo "Processing resource $r ..."
 done
+
