@@ -80,22 +80,30 @@ if [ $? != 0 ]; then
 fi
 
 
-#Check for existing azure resources in the RG
-if [-z "${resourceGroupName}" ]; then
-resources = az resources list --resource-group $resourceGroupName --tag $tag --query $query
-fi
+#Check for existing azure resources in the RG (different from the VNET)
+#
+set -e
+	(
+		set -x
 
-if []; then
-resources = az resources list --resource-group $resourceGroupName --tag $tag --query $query
-fi
-
-if []; then
-resources = az resources list --resource-group $resourceGroupName --tag $tag --query $query
-fi
-
+		if [-z "${tag}" ] && [-z "${query}"]
+		then
+		resources = az resources list --resource-group $resourceGroupName --tag $tag --query "[?name != '$vnet']" --query $query
+		elif [-z "${tag}" ]
+		then
+		resources = az resources list --resource-group $resourceGroupName --tag $tag --query "[?name != '$vnet']"
+		elif [-z "${query}" ]
+		then
+		resources = az resources list --resource-group $resourceGroupName --query "[?name != '$vnet']" --query $query
+		fi		
+	)
 
 for r in $resources
 do
-
-    echo "Processing resource $r ..."
+	if [-z "${tag}" ]
+	then
+    	echo "Processing resource $r ..."
+	else
+		echo "Processing resource $r ..."
+	fi
 done
