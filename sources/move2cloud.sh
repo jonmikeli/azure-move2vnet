@@ -112,13 +112,13 @@ az resource list --resource-group $resourceGroupName --query "[?name!='$vnet'].{
 	
 if [ ! -z "${tag}" ] && [ ! -z "${query}" ]
 then		
-	rArray=$(az resource list --resource-group $resourceGroupName --query "[?name!='$vnet'].id" --out tsv)
+	rArray=$(az resource list --resource-group $resourceGroupName --query "[?name!='$vnet'].{Id:id,Name:name,Kind:kind}" --out json)
 elif [ ! -z "${tag}" ];
 then
 	rArray=$(az resource list --resource-group $resourceGroupName --query "[?name!='$vnet'].{Id:id,Name:name,Kind:kind}" --out json)
 elif [ ! -z "${query}" ];
 then
-	rArray=$(az resource list --resource-group $resourceGroupName --query "[?name!='$vnet'].id" --out tsv)
+	rArray=$(az resource list --resource-group $resourceGroupName --query "[?name!='$vnet'].{Id:id,Name:name,Kind:kind}" --out json)
 fi		
 
 #https://azurecitadel.com/prereqs/cli/cli-4-bash/
@@ -126,7 +126,6 @@ echo "Resources to move..."
 echo ${#rArray[@]}
 echo ${rArray[@]}
 
-for r in ${rArray[@]}
 do
 	echo "Processing resource $r ..."
 done
