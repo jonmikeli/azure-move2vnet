@@ -122,11 +122,15 @@ then
 fi		
 
 #https://azurecitadel.com/prereqs/cli/cli-4-bash/
-echo "Resources to move..."
-echo ${#rArray[@]}
+echo "Resources to move: ${#rArray[@]}"
+echo "Raw data:"
 echo ${rArray[@]}
 
-do
-	echo "Processing resource $r ..."
-done
+#http://www.compciv.org/recipes/cli/jq-for-parsing-json/
+echo "Formated raw data:"
+echo $rArray | jq '.'
+echo "Formated raw data(items):"
+echo $rArray | jq '.[]'
+#$rArray | jq '.[]' | touch
+
 
