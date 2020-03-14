@@ -134,6 +134,12 @@ echo "Formated raw data(items):"
 echo $rArray | jq '.[]'
 echo $rArray | jq '.[]' | echo "Item to be processed"
 
+echo
+echo "SELECT"
+echo $rArray | jq -c '.[] | select( .Kind == "StorageV2" )' 
+echo "FIN SELECT"
+echo
+
 for r in $(echo $rArray | jq -c '.[]')
 do
 	echo "Item..."
