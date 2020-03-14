@@ -180,6 +180,7 @@ do
 				${resourceTypes[0]})
 				#Microsoft.Web/sites
 					echo "==========>    ${resourceTypes[0]}"
+					az webapp vnet-integration add -g gresourceGroupName -n $rName --vnet $vnet --subnet ${vnet}subnet
 					;;
 				${resourceTypes[1]})
 				#Microsoft.Web/serverFarms
