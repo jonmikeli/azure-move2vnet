@@ -1,9 +1,10 @@
 #!/bin/bash
 function show_help {
-    echo "Usage: ${0} -s [subscriptionId] -g [resource group name] -n [vnet name]"
+    echo "Usage: ${0} -s [subscriptionId] -g [resource group name] -n [vnet name] -l [location]"
     echo ""
     echo "    -s: subscriptionId"
     echo "    -g: resource group name"
+	echo "    -l: location"
     echo "    -n: vnet name"
 	echo "    -t: tag (optional)"
     echo "    -q: query (optional)"
@@ -21,6 +22,7 @@ get_parameter_values ()
 		case $option in
 			s) subscriptionId=$OPTARG;;
 			g) resourceGroupName=$OPTARG;;
+			l) location=$OPTARG;;
 			n) vnet=$OPTARG;;
 			t) tag=$OPTARG;;
             q) query=$OPTARG;;
@@ -71,9 +73,10 @@ az account set --subscription $subscriptionId
 
 
 #check for existing RG
-az group show --name $resourceGroupName 1> /dev/null
+az group show --name $resourceGroupName  1> /dev/null
 
-if [ $? != 0 ]; then
+if [ $? != 0 ];
+then
 	echo "Resource group with name" $resourceGroupName "could not be found."
 	exit 1
 fi
@@ -180,7 +183,7 @@ do
 			echo "   >>> Name: $rName"
 
 			rKind=$(jq -r '.Kind' <<< $tr)
-			echo "   >>> Kind: $rKind"
+			echo "   >>> Kind: $rKind"			
 
 			echo "   >>> ==> Processing resource '$rName' of kind '$rKind' and type '$type'."
 
@@ -190,7 +193,7 @@ do
 					set -e
 					( 	
 						set -x
-						az webapp vnet-integration add -g gresourceGroupName -n $rName --vnet $vnet --subnet ${vnet}subnet
+						az webapp vnet-integration add -g $resourceGroupName -n $rName --vnet $vnet --subnet ${vnet}subnet
 					)
 					;;
 				${resourceTypes[1]})
