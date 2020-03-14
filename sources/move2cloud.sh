@@ -45,23 +45,30 @@ get_parameter_values ()
 get_parameter_values "$@"
 
 #check inputs
-if [-z "${subscriptionId}" ]; then
+if [ -z "${subscriptionId}" ]; then
 	echo "No subscriptionId has been provided."
 	exit 1
+	else
+	echo "SubscriptionId PROVIDED."
 fi
 
-if [-z "${resourceGroupName}" ]; then
+if [ -z "${resourceGroupName}" ]; then
 	echo "No resource group name has been provided."
 	exit 1
+	else
+	echo "resourceGroupName PROVIDED."
 fi
 
-if [-z "${vnet}" ]; then
+if [ -z "${vnet}" ]; then
 	echo "No vnet name has been provided."
 	exit 1
+	else
+	echo "vnet PROVIDED."
 fi
 
 #set the default subscription id
 az account set --subscription $subscriptionId
+
 
 #check for existing RG
 az group show --name $resourceGroupName 1> /dev/null
@@ -74,9 +81,17 @@ fi
 #check if the target vnet exists
 az network vnet show --name $vnet -g $resourceGroupName 1> /dev/null
 
-if [ $? != 0 ]; then
+if [ $? != 0 ];
+then
 	echo "VNET with name" $vnet "could not be found in the resource group $resourceGroupName."
 	exit 1
+else
+	set -e
+	(
+		set -x
+
+		az network vnet create --name $vnet --resource-group $resourceGroupName 
+	)
 fi
 
 
