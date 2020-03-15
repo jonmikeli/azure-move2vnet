@@ -157,16 +157,18 @@ echo
 #PROCESSING
 for type in ${resourceTypes[@]}
 do
-	tmpArray=$(echo $rArray | jq -c --arg type "$type" '.[] | select( .Type == $type )')
+	tmpArray=$(echo $rArray | jq -c --arg ty "$type" '[.[] | select( .Type == $ty )]')
+	count=$(echo $tmpArray | jq length)	
+
 	echo
 	echo
-	echo "====================================== $type (${#tmpArray[@]}) =========================================="
-	echo "Count: ${#tmpArray[@]}"
+	echo "====================================== $type ($count) =========================================="
+	echo "Count: $count"
 	echo "Resources:"
-	echo ${tmpArray[@]} | jq '.'
+	echo $tmpArray | jq '.'
 	echo
 
-	if [ ${#tmpArray[@]} -gt 0 ];
+	if [ $count -gt 0 ];
 	then
 		
 		echo "   >>> MOVING RESOURCES OF TYPE $type TO VNET..."
@@ -185,32 +187,19 @@ do
 			case $type in
 				${resourceTypes[0]})
 				#Microsoft.Web/sites
-					set -e
-					( 	
-						set -x
-
-						az webapp vnet-integration add -g $resourceGroupName -n $rName --vnet $vnet --subnet ${vnet}subnet
-					)
-					;;
+					az webapp vnet-integration add -g $resourceGroupName -n $rName --vnet $vnet --subnet ${vnet}subnet
+				;;
 				${resourceTypes[1]})
 				#Microsoft.Web/serverFarms
 					echo "   >>> ==> TO BE DONE: $type"
 					;;
 				${resourceTypes[2]})
 				#Microsoft.Storage/storageAccounts
-					set -e
-					( 	
-						set -x
-						az storage account network-rule add -g $resourceGroupName --account-name $rName --vnet $vnet --subnet ${vnet}subnet
-					)
+					az storage account network-rule add -g $resourceGroupName --account-name $rName --vnet $vnet --subnet ${vnet}subnet
 					;;
 				${resourceTypes[3]})
 				#Microsoft.KeyVault/vaults
-					set -e
-					( 	
-						set -x
-						az keyvault network-rule add -g $resourceGroupName --name $rName --vnet-name $vnet --subnet ${vnet}subnet
-					)
+					az keyvault network-rule add -g $resourceGroupName --name $rName --vnet-name $vnet --subnet ${vnet}subnet					
 					;;
 				*)
 					echo "   >>> ==> TYPE NOT FOUND: $type"
