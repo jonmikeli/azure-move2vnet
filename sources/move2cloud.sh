@@ -189,6 +189,7 @@ do
 			case $type in
 				${resourceTypes[0]})
 				#Microsoft.Web/sites
+				#Check subnet service points and add the if required
 					set +e
 					(
 						az webapp vnet-integration add -g $resourceGroupName -n $rName --vnet $vnet --subnet ${vnet}subnet
@@ -200,6 +201,7 @@ do
 					;;
 				${resourceTypes[2]})
 				#Microsoft.Storage/storageAccounts
+				#Check subnet service points and add the if required
 					set +e
 					(
 						az storage account network-rule add -g $resourceGroupName --account-name $rName --vnet $vnet --subnet ${vnet}subnet
@@ -207,6 +209,7 @@ do
 					;;
 				${resourceTypes[3]})
 				#Microsoft.KeyVault/vaults
+				#Check subnet service points and add the if required
 					set +e
 					(
 						az keyvault network-rule add -g $resourceGroupName --name $rName --vnet-name $vnet --subnet ${vnet}subnet					
