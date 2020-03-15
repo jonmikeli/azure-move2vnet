@@ -126,9 +126,9 @@ then
 		set -x
 
 		az network vnet create --name $vnet --resource-group $resourceGroupName --address-prefixes 10.0.0.0/16
-		az network vnet subnet create --name ${frontendSubnet} --vnet-name $vnet --resource-group $resourceGroupName --address-prefixes 10.1.0.0/24		
-		az network vnet subnet create --name ${middleendSubnet} --vnet-name $vnet --resource-group $resourceGroupName --address-prefixes 10.2.0.0/24		
-		az network vnet subnet create --name ${backendSubnet} --vnet-name $vnet --resource-group $resourceGroupName --address-prefixes 10.3.0.0/24		
+		az network vnet subnet create --name ${frontendSubnet} --vnet-name $vnet --resource-group $resourceGroupName --address-prefixes 10.0.1.0/24 --service-endpoints ${serviceEndpoints[0]}
+		az network vnet subnet create --name ${middleendSubnet} --vnet-name $vnet --resource-group $resourceGroupName --address-prefixes 10.0.2.0/24 --service-endpoints ${serviceEndpoints[0]} ${serviceEndpoints[2]}
+		az network vnet subnet create --name ${backendSubnet} --vnet-name $vnet --resource-group $resourceGroupName --address-prefixes 10.0.3.0/24 --service-endpoints ${serviceEndpoints[1]}		
 
 		#Configure service end-points
 		for s in ${serviceEndpoints[@]}
@@ -138,20 +138,19 @@ then
 			case $s in
 				${serviceEndpoints[0]})
 				#Microsoft.Web
-					az network vnet subnet update -g $resourceGroupName -n ${frontendSubnet} --vnet-name ${vnet} --service-endpoints $s
-					az network vnet subnet update -g $resourceGroupName -n ${middleendSubnet} --vnet-name ${vnet} --service-endpoints $s
+					#az network vnet subnet update -g $resourceGroupName -n ${frontendSubnet} --vnet-name ${vnet} --service-endpoints $s
+					#az network vnet subnet update -g $resourceGroupName -n ${middleendSubnet} --vnet-name ${vnet} --service-endpoints $s
 				;;
 				${serviceEndpoints[1]})
 				#Microsoft.Storage
-					az network vnet subnet update -g $resourceGroupName -n ${backendSubnet} --vnet-name ${vnet} --service-endpoints $s
+					#az network vnet subnet update -g $resourceGroupName -n ${backendSubnet} --vnet-name ${vnet} --service-endpoints $s
 				;;
 				${serviceEndpoints[2]})
 				#Microsoft.KeyVault
-					az network vnet subnet update -g $resourceGroupName -n ${middleendSubnet} --vnet-name ${vnet} --service-endpoints $s
+					#az network vnet subnet update -g $resourceGroupName -n ${middleendSubnet} --vnet-name ${vnet} --service-endpoints $s
 				;;
 			esac
-
-			az network vnet subnet update -g $resourceGroupName -n ${vnet}subnet --vnet-name ${vnet} --service-endpoints $s
+			
 			#https://github.com/Azure-Samples/azure-cli-samples/blob/master/cosmosdb/common/service-endpoints-ignore-missing-vnet.sh
 		done
 	)
