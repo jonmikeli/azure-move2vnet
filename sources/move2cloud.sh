@@ -166,9 +166,7 @@ do
 	echo "====================================== $type ($count) =========================================="
 	echo "Count: $count"
 	echo "Resources:"
-	echo ${jsonArray[@]}
-	echo
-	echo ${tmpArray[@]}
+	echo ${jsonArray[@]} | jq -c '.'
 	echo
 
 	if [ $count -gt 0 ];
