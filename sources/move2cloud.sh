@@ -125,7 +125,7 @@ then
 	(
 		set -x
 
-		az network vnet create --name $vnet --resource-group $resourceGroupName 
+		az network vnet create --name $vnet --resource-group $resourceGroupName --address-prefixes 10.0.0.0/16
 		az network vnet subnet create --name ${frontendSubnet} --vnet-name $vnet --resource-group $resourceGroupName --address-prefixes 10.1.0.0/24		
 		az network vnet subnet create --name ${middleendSubnet} --vnet-name $vnet --resource-group $resourceGroupName --address-prefixes 10.2.0.0/24		
 		az network vnet subnet create --name ${backendSubnet} --vnet-name $vnet --resource-group $resourceGroupName --address-prefixes 10.3.0.0/24		
