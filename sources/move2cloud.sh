@@ -166,7 +166,7 @@ do
 	echo "====================================== $type ($count) =========================================="
 	echo "Count: $count"
 	echo "Resources:"
-	echo ${jsonArray[@]} | jq -c '.'
+	echo ${jsonArray[@]} | jq '.'
 	echo
 
 	if [ $count -gt 0 ];
@@ -178,7 +178,7 @@ do
 		do
 			echo
 			echo "   >>> Item:"
-			echo "   >>> $tr"
+			echo $tr | jq '.'
 
 			rName=$(jq -r '.Name' <<< $tr)
 			echo "   >>> Name: $rName"
