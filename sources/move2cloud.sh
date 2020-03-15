@@ -134,6 +134,23 @@ then
 		for s in ${serviceEndpoints[@]}
 		do
 			echo "Adding service endpoint $s to $vnet and ${vnet}subnet."
+
+			case $s in
+				${serviceEndpoints[0]})
+				#Microsoft.Web
+					az network vnet subnet update -g $resourceGroupName -n ${frontendSubnet} --vnet-name ${vnet} --service-endpoints $s
+					az network vnet subnet update -g $resourceGroupName -n ${middleendSubnet} --vnet-name ${vnet} --service-endpoints $s
+				;;
+				${serviceEndpoints[1]})
+				#Microsoft.Storage
+					az network vnet subnet update -g $resourceGroupName -n ${backendSubnet} --vnet-name ${vnet} --service-endpoints $s
+				;;
+				${serviceEndpoints[2]})
+				#Microsoft.KeyVault
+					az network vnet subnet update -g $resourceGroupName -n ${middleendSubnet} --vnet-name ${vnet} --service-endpoints $s
+				;;
+			esac
+
 			az network vnet subnet update -g $resourceGroupName -n ${vnet}subnet --vnet-name ${vnet} --service-endpoints $s
 			#https://github.com/Azure-Samples/azure-cli-samples/blob/master/cosmosdb/common/service-endpoints-ignore-missing-vnet.sh
 		done
