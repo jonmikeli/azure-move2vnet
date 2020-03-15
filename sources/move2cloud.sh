@@ -69,9 +69,35 @@ then
 	exit 1
 fi
 
+
+
+#List of resource types to move to vnet
+resourceTypes=(Microsoft.Web/sites Microsoft.Web/serverFarms Microsoft.Storage/storageAccounts Microsoft.KeyVault/vaults)
+
+echo
+echo "Resource types (${#resourceTypes[@]}):"
+for t in ${resourceTypes[@]}
+do
+	echo "  - $t"
+done
+echo
+
+#Service endpoints
+serviceEndpoints=(Microsoft.Web Microsoft.Storage Microsoft.KeyVault)
+
+echo
+echo "Service endpoints (${#serviceEndpoints[@]}):"
+for s in ${serviceEndpoints[@]}
+do
+	echo "  - $s"
+done
+echo
+
+
+
+
 #set the default subscription id
 az account set --subscription $subscriptionId
-
 
 #check for existing RG
 az group show --name $resourceGroupName  1> /dev/null
@@ -96,13 +122,20 @@ then
 		set -x
 
 		az network vnet create --name $vnet --resource-group $resourceGroupName 
-		az network vnet subnet create --name ${vnet}subnet --vnet-name $vnet --resource-group $resourceGroupName --address-prefixes 10.0.0.0/24
+		az network vnet subnet create --name ${vnet}subnet --vnet-name $vnet --resource-group $resourceGroupName --address-prefixes 10.0.0.0/24		
 	)
 else
 	echo "Vnet $vnet found in the $resourceGroupName."
 	echo "TODO: Add tests for subnets."
 fi
 
+#Configure service end-points
+for s in ${serviceEndpoints[@]}
+do
+	echo "Adding service endpoint $s to $vnet and ${vnet}subnet."
+	az network vnet subnet update -g $resourceGroupName -n ${vnet}subnet --vnet-name ${vnet} --service-endpoints $s
+	#https://github.com/Azure-Samples/azure-cli-samples/blob/master/cosmosdb/common/service-endpoints-ignore-missing-vnet.sh
+done
 
 #Check for existing azure resources in the RG (different from the VNET)
 echo
@@ -143,16 +176,7 @@ echo "Formated raw data(items):"
 echo $rArray | jq '.[]'
 echo
 
-#List of resource types to move to vnet
-resourceTypes=(Microsoft.Web/sites Microsoft.Web/serverFarms Microsoft.Storage/storageAccounts Microsoft.KeyVault/vaults)
 
-echo
-echo "Resource types (${#resourceTypes[@]}):"
-for t in ${resourceTypes[@]}
-do
-	echo "  - $t"
-done
-echo
 
 #PROCESSING
 for type in ${resourceTypes[@]}
