@@ -123,19 +123,20 @@ then
 
 		az network vnet create --name $vnet --resource-group $resourceGroupName 
 		az network vnet subnet create --name ${vnet}subnet --vnet-name $vnet --resource-group $resourceGroupName --address-prefixes 10.0.0.0/24		
+
+		#Configure service end-points
+		for s in ${serviceEndpoints[@]}
+		do
+			echo "Adding service endpoint $s to $vnet and ${vnet}subnet."
+			az network vnet subnet update -g $resourceGroupName -n ${vnet}subnet --vnet-name ${vnet} --service-endpoints $s
+			#https://github.com/Azure-Samples/azure-cli-samples/blob/master/cosmosdb/common/service-endpoints-ignore-missing-vnet.sh
+		done
 	)
 else
 	echo "Vnet $vnet found in the $resourceGroupName."
-	echo "TODO: Add tests for subnets."
+	echo "TODO: Add tests for subnets and endpoints."
 fi
 
-#Configure service end-points
-for s in ${serviceEndpoints[@]}
-do
-	echo "Adding service endpoint $s to $vnet and ${vnet}subnet."
-	az network vnet subnet update -g $resourceGroupName -n ${vnet}subnet --vnet-name ${vnet} --service-endpoints $s
-	#https://github.com/Azure-Samples/azure-cli-samples/blob/master/cosmosdb/common/service-endpoints-ignore-missing-vnet.sh
-done
 
 #Check for existing azure resources in the RG (different from the VNET)
 echo
