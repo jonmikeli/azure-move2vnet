@@ -55,24 +55,18 @@ if [ -z "${subscriptionId}" ];
 then
 	echo "No subscriptionId has been provided."
 	exit 1
-else
-	echo "SubscriptionId PROVIDED."
 fi
 
 if [ -z "${resourceGroupName}" ];
 then
 	echo "No resource group name has been provided."
 	exit 1
-else
-	echo "resourceGroupName PROVIDED."
 fi
 
 if [ -z "${vnet}" ];
 then
 	echo "No vnet name has been provided."
 	exit 1
-else
-	echo "vnet PROVIDED."
 fi
 
 #set the default subscription id
