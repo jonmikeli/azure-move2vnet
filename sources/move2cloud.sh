@@ -240,7 +240,14 @@ do
 				#Check subnet service points and add the if required
 					set +e
 					(
-						az webapp vnet-integration add -g $resourceGroupName -n $rName --vnet $vnet --subnet ${vnet}subnet
+						if [[ $rKind == *"app" ]];
+						then
+							#apis or AF
+							az webapp vnet-integration add -g $resourceGroupName -n $rName --vnet $vnet --subnet ${middleendSubnet}
+						else
+							#websites
+							az webapp vnet-integration add -g $resourceGroupName -n $rName --vnet $vnet --subnet ${frontendSubnet}
+						fi
 					)
 				;;
 				${resourceTypes[1]})
@@ -252,7 +259,7 @@ do
 				#Check subnet service points and add the if required
 					set +e
 					(
-						az storage account network-rule add -g $resourceGroupName --account-name $rName --vnet $vnet --subnet ${vnet}subnet
+						az storage account network-rule add -g $resourceGroupName --account-name $rName --vnet $vnet --subnet ${backendSubnet}
 					)
 					;;
 				${resourceTypes[3]})
@@ -260,7 +267,7 @@ do
 				#Check subnet service points and add the if required
 					set +e
 					(
-						az keyvault network-rule add -g $resourceGroupName --name $rName --vnet-name $vnet --subnet ${vnet}subnet					
+						az keyvault network-rule add -g $resourceGroupName --name $rName --vnet-name $vnet --subnet ${middleendSubnet}		
 					)
 					;;
 				*)
