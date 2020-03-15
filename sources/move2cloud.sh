@@ -157,24 +157,28 @@ echo
 #PROCESSING
 for type in ${resourceTypes[@]}
 do
-	tmpArray=$(echo $rArray | jq -c --arg ty "$type" '[.[] | select( .Type == $ty )]')
-	count=$(echo $tmpArray | jq length)	
+	jsonArray=$(echo $rArray | jq -c --arg ty "$type" '[.[] | select( .Type == $ty )]')
+	count=$(echo $jsonArray | jq length)
+	tmpArray=$(echo $jsonArray | jq -c '.[]')
 
 	echo
 	echo
 	echo "====================================== $type ($count) =========================================="
 	echo "Count: $count"
 	echo "Resources:"
-	echo $tmpArray | jq '.'
+	echo ${jsonArray[@]}
+	echo
+	echo ${tmpArray[@]}
 	echo
 
 	if [ $count -gt 0 ];
 	then
 		
-		echo "   >>> MOVING RESOURCES OF TYPE $type TO VNET..."
+		echo "   *** MOVING RESOURCES OF TYPE $type TO VNET..."
 
-		for tr in $tmpArray
+		for tr in ${tmpArray[@]}
 		do
+			echo
 			echo "   >>> Item:"
 			echo "   >>> $tr"
 
@@ -205,6 +209,7 @@ do
 					echo "   >>> ==> TYPE NOT FOUND: $type"
 					;;
 			esac
+			echo
 		done
 	else
 		echo "No resources for the type $type."
