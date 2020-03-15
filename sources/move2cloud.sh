@@ -150,7 +150,7 @@ then
 					#az network vnet subnet update -g $resourceGroupName -n ${middleendSubnet} --vnet-name ${vnet} --service-endpoints $s
 				;;
 			esac
-			
+
 			#https://github.com/Azure-Samples/azure-cli-samples/blob/master/cosmosdb/common/service-endpoints-ignore-missing-vnet.sh
 		done
 	)
@@ -239,12 +239,14 @@ do
 				#Check subnet service points and add the if required
 					set +e
 					(
-						if [[ $rKind == *"app" ]];
+						if [[ $rKind == *"app"* ]];
 						then
 							#apis or AF
+							echo "   >>>--> : ${resourceTypes[0]} - Kind: $rKind - app"
 							az webapp vnet-integration add -g $resourceGroupName -n $rName --vnet $vnet --subnet ${middleendSubnet}
 						else
 							#websites
+							echo "   >>>--> : ${resourceTypes[0]} - Kind: $rKind - web"
 							az webapp vnet-integration add -g $resourceGroupName -n $rName --vnet $vnet --subnet ${frontendSubnet}
 						fi
 					)
