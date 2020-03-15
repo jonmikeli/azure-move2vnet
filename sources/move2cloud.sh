@@ -189,7 +189,10 @@ do
 			case $type in
 				${resourceTypes[0]})
 				#Microsoft.Web/sites
-					az webapp vnet-integration add -g $resourceGroupName -n $rName --vnet $vnet --subnet ${vnet}subnet
+					set +e
+					(
+						az webapp vnet-integration add -g $resourceGroupName -n $rName --vnet $vnet --subnet ${vnet}subnet
+					)
 				;;
 				${resourceTypes[1]})
 				#Microsoft.Web/serverFarms
@@ -197,11 +200,17 @@ do
 					;;
 				${resourceTypes[2]})
 				#Microsoft.Storage/storageAccounts
-					az storage account network-rule add -g $resourceGroupName --account-name $rName --vnet $vnet --subnet ${vnet}subnet
+					set +e
+					(
+						az storage account network-rule add -g $resourceGroupName --account-name $rName --vnet $vnet --subnet ${vnet}subnet
+					)
 					;;
 				${resourceTypes[3]})
 				#Microsoft.KeyVault/vaults
-					az keyvault network-rule add -g $resourceGroupName --name $rName --vnet-name $vnet --subnet ${vnet}subnet					
+					set +e
+					(
+						az keyvault network-rule add -g $resourceGroupName --name $rName --vnet-name $vnet --subnet ${vnet}subnet					
+					)
 					;;
 				*)
 					echo "   >>> ==> TYPE NOT FOUND: $type"
