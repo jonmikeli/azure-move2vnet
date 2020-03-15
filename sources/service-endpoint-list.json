@@ -1,0 +1,52 @@
+[
+  {
+    "id": "/subscriptions/ec91c862-9472-4bb7-9c61-64727c764b8b/providers/Microsoft.Network/virtualNetworkEndpointServices/Microsoft.Storage",
+    "name": "Microsoft.Storage",
+    "type": "Microsoft.Network/virtualNetworkEndpointServices"
+  },
+  {
+    "id": "/subscriptions/ec91c862-9472-4bb7-9c61-64727c764b8b/providers/Microsoft.Network/virtualNetworkEndpointServices/Microsoft.Sql",
+    "name": "Microsoft.Sql",
+    "type": "Microsoft.Network/virtualNetworkEndpointServices"
+  },
+  {
+    "id": "/subscriptions/ec91c862-9472-4bb7-9c61-64727c764b8b/providers/Microsoft.Network/virtualNetworkEndpointServices/Microsoft.AzureActiveDirectory",
+    "name": "Microsoft.AzureActiveDirectory",
+    "type": "Microsoft.Network/virtualNetworkEndpointServices"
+  },
+  {
+    "id": "/subscriptions/ec91c862-9472-4bb7-9c61-64727c764b8b/providers/Microsoft.Network/virtualNetworkEndpointServices/Microsoft.AzureCosmosDB",
+    "name": "Microsoft.AzureCosmosDB",
+    "type": "Microsoft.Network/virtualNetworkEndpointServices"
+  },
+  {
+    "id": "/subscriptions/ec91c862-9472-4bb7-9c61-64727c764b8b/providers/Microsoft.Network/virtualNetworkEndpointServices/Microsoft.Web",
+    "name": "Microsoft.Web",
+    "type": "Microsoft.Network/virtualNetworkEndpointServices"
+  },
+  {
+    "id": "/subscriptions/ec91c862-9472-4bb7-9c61-64727c764b8b/providers/Microsoft.Network/virtualNetworkEndpointServices/Microsoft.KeyVault",
+    "name": "Microsoft.KeyVault",
+    "type": "Microsoft.Network/virtualNetworkEndpointServices"
+  },
+  {
+    "id": "/subscriptions/ec91c862-9472-4bb7-9c61-64727c764b8b/providers/Microsoft.Network/virtualNetworkEndpointServices/Microsoft.EventHub",
+    "name": "Microsoft.EventHub",
+    "type": "Microsoft.Network/virtualNetworkEndpointServices"
+  },
+  {
+    "id": "/subscriptions/ec91c862-9472-4bb7-9c61-64727c764b8b/providers/Microsoft.Network/virtualNetworkEndpointServices/Microsoft.ServiceBus",
+    "name": "Microsoft.ServiceBus",
+    "type": "Microsoft.Network/virtualNetworkEndpointServices"
+  },
+  {
+    "id": "/subscriptions/ec91c862-9472-4bb7-9c61-64727c764b8b/providers/Microsoft.Network/virtualNetworkEndpointServices/Microsoft.ContainerRegistry",
+    "name": "Microsoft.ContainerRegistry",
+    "type": "Microsoft.Network/virtualNetworkEndpointServices"
+  },
+  {
+    "id": "/subscriptions/ec91c862-9472-4bb7-9c61-64727c764b8b/providers/Microsoft.Network/virtualNetworkEndpointServices/Microsoft.CognitiveServices",
+    "name": "Microsoft.CognitiveServices",
+    "type": "Microsoft.Network/virtualNetworkEndpointServices"
+  }
+]
