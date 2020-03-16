@@ -53,4 +53,7 @@ The current version requires 3 parameters:
 
 Example:
 
-`./move2cloud.sh -s "ec91c862-9472-4bb7-9c61-64727c764999" -g "move2vnettest" -n "vnetmove2vnet"`
+`./move2vnet.sh -s "ec91c862-9472-4bb7-9c61-64727c764999" -g "move2vnettest" -n "vnetmove2vnet"`
+
+### Traces
+`move2vnet`
