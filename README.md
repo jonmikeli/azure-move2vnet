@@ -36,7 +36,7 @@ The appropriate and required service endpoints for each subnet are created by th
  - Microsoft.KeyVault
 
 > Note:
-> Not all Azure resources can be configured with a VNet.
+> Not all the Azure resources can be configured with a VNet.
 > Furthermore, VNet is only available for certain SKUs.
 > These constraints have be to be taken into account by yourself (not managed by the script for now).
 
