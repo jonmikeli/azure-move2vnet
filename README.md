@@ -20,23 +20,27 @@ Another interesting use case would be to use `move2vnet` to add VNet security to
 ## How does it work?
 
 The script lists all the Azure resources in a given resource group.
-The scripts checks if the targeted VNet exists. If it does not exist, it is created with 3 subnets:
+The scripts checks whether the targeted VNet exists. If it does not exist, it is created with 3 subnets:
  - front, mainly for web sites
  - middle, mainly for APIs, Azure Functions, Service Bus, etc
  - back, mainly for storage services
 
-The script manages a limite amount of service types.
-The appropriate and required service endpoints for each subnet are created by the script.
+`move2vnet` manages a limite amount of resource types:
+ - Microsoft.Web/sites 
+ - Microsoft.Storage/storageAccounts
+ - Microsoft.KeyVault/vaults
+
+The appropriate and required service endpoints for each subnet are created by the script:
+ - Microsoft.Web
+ - Microsoft.Storage
+ - Microsoft.KeyVault
 
 > Note:
 > Not all Azure resources can be configured with a VNet.
 > Furthermore, VNet is only available for certain SKUs.
 > These constraints have be to be taken into account by yourself (not managed by the script for now).
 
-The resource types covered for now are:
- - Microsoft.Web/sites 
- - Microsoft.Storage/storageAccounts
- - Microsoft.KeyVault/vaults
+
 
 The Azure resources are spread in the different subnets, according to their service type.
 
