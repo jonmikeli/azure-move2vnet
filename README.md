@@ -15,7 +15,7 @@ So, why not to try to find some helpers or accelerators?
 
 Another interesting use case would be to use `move2vnet` to add VNet security to already running applications.
 
-So, this is the why.
+> So, adding VNet security seamlessly to an application is the why.
 
 ## How does it work?
 
