@@ -1,13 +1,14 @@
 # Azure - move2vnet
 
-This script "moves" Azure resources to a VNet.
-See below to understand the rules applied to such an operation.
+`move2vnet` "moves" Azure resources to a VNet.
 
 ## Why?
 
 This script answers to many real life needs.
-It happens that the development of a project starts and security is not considered (whatever will be the reason). Security can take many forms.
-When possible, VNet is a simple and effective way to add security.
+It happens that the development of a project starts and security is not considered (whatever will be the reason). Sometimes we end up confronted to the need of having to add security afterwords.
+
+Security implementation can take many forms.
+VNet is one of them: simple, effective and not intrusive (it does not require modifying applications).
 
 Adding that kind of security afterwords can be tedious work.
 So, why not to try to find some helpers or accelerators?
@@ -39,4 +40,4 @@ The Azure resources are spread in the different subnets, according to their serv
 
 ### Examples
 
-``` ./move2cloud.sh -s "ec91c862-9472-4bb7-9c61-64727c764999" -g "move2vnettest" -n "vnetmove2vnet"
+`./move2cloud.sh -s "ec91c862-9472-4bb7-9c61-64727c764999" -g "move2vnettest" -n "vnetmove2vnet"`
