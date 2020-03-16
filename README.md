@@ -40,10 +40,13 @@ The appropriate and required service endpoints for each subnet are created by th
 > Furthermore, VNet is only available for certain SKUs.
 > These constraints have be to be taken into account by yourself (not managed by the script for now).
 
+The Azure resources are spread out in the different subnets, according to their  type.
 
+### How to use move2vnet?
 
-The Azure resources are spread in the different subnets, according to their service type.
-
-### Examples
+The current version requires 3 parameters:
+ - subscriptionId
+ - resrouce group containing the Azure resources to add VNet security to
+ - the name of the VNet
 
 `./move2cloud.sh -s "ec91c862-9472-4bb7-9c61-64727c764999" -g "move2vnettest" -n "vnetmove2vnet"`
