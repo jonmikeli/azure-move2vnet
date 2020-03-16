@@ -5,15 +5,18 @@
 ## Why?
 
 This script answers to many real life needs.
-It happens that the development of a project starts and security is not considered (whatever will be the reason). Sometimes we end up confronted to the need of having to add security afterwords.
+It happens that the development of a project starts and security is not considered (whatever will be the reason). Sometimes we are confronted to the need of having to add security afterwords.
 
 Security implementation can take many forms.
 VNet is one of them: simple, effective and not intrusive (it does not require modifying applications).
 
-Adding that kind of security afterwords can be tedious work.
+Adding that kind of security once the design of the application as been designed (or implemented, even worse) can be tedious work.
 So, why not to try to find some helpers or accelerators?
 
 So, this is the why.
+
+Note:
+
 
 ## How does it work?
 
