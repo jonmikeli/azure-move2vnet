@@ -2,6 +2,8 @@
 
 `move2vnet` "moves" Azure resources to a VNet.
 
+![General move2vnet diagram](./media/Diagram.png "move2vnet diagram")
+
 ## Why?
 
 This script answers to many real life needs.
