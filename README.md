@@ -49,4 +49,6 @@ The current version requires 3 parameters:
  - resrouce group containing the Azure resources to add VNet security to
  - the name of the VNet
 
+Example:
+
 `./move2cloud.sh -s "ec91c862-9472-4bb7-9c61-64727c764999" -g "move2vnettest" -n "vnetmove2vnet"`
