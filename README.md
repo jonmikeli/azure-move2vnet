@@ -6,16 +6,18 @@
 
 ## Why?
 
-This script answers to many real life needs.
-It happens that the development of a project starts and security is not considered (whatever the reason will be). Sometimes we are confronted to the need of having to add security afterwards.
+This script answers to many real life situations.
+It happens that the development of a project starts and security is not considered as it should (whatever the reason). Sometimes we are confronted to the need of having to add security afterwards.
 
 Security implementation can take many forms.
-VNet is one of them: simple, effective and not intrusive (it does not require modifying applications).
+VNet integration is one of them: simple, effective and not too intrusive.
 
-Adding that kind of security once the design of the application as been designed (or implemented, even worse) can be tedious work.
-So, why not to try to find some helpers or accelerators?
+Adding that kind of security once the design of the application as been designed (or implemented, even worse) can be a tedious work.
+Furthermore, many tasks can be repetitive and mechanical.
+So, why not to try to find (or build) a way to go faster and take in charge part of that work?
 
-Another interesting use case would be to use `move2vnet` to add VNet security to already running applications.
+Let's imagine for a minute that such a tool exists.
+It could also offer the possibility to add VNet integration to already existing and running applications, fast and easily.
 
 > So, adding VNet security seamlessly to an application is the why.
 
