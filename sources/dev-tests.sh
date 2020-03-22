@@ -1,6 +1,5 @@
 #!/bin/bash
 ./move2vnet.sh \
--s "ec91c862-9472-4bb7-9c61-64727c764b8b" \
+-s "" \
 -g "move2vnettest" \
--n "vnetmove2vnet" \
--t "tagtest" 
+-n "vnetmove2vnet"
