@@ -7,7 +7,7 @@
 ## Why?
 
 This script answers to many real life needs.
-It happens that the development of a project starts and security is not considered (whatever will be the reason). Sometimes we are confronted to the need of having to add security afterwords.
+It happens that the development of a project starts and security is not considered (whatever the reason will be). Sometimes we are confronted to the need of having to add security afterwards.
 
 Security implementation can take many forms.
 VNet is one of them: simple, effective and not intrusive (it does not require modifying applications).
