@@ -29,7 +29,7 @@ The scripts checks whether the targeted VNet exists. If it does not exist, it is
  - middle, mainly for APIs, Azure Functions, Service Bus, etc
  - back, mainly for storage services
 
-`move2vnet` manages a limite amount of resource types:
+For now, `move2vnet` manages a limited amount of resource types:
  - Microsoft.Web/sites 
  - Microsoft.Storage/storageAccounts
  - Microsoft.KeyVault/vaults
