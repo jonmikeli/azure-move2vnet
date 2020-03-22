@@ -1,1 +1,0 @@
-# azure-move2vnet
